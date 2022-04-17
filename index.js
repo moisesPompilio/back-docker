@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 const consign = require('consign')
 const {knex, knex2} = require("./config/database")
+const jtw = require ('jsonwebtoken');
 
 app.use(express.json());
 app.db_mysql = knex;
