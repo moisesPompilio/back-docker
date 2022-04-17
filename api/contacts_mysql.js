@@ -1,11 +1,11 @@
 module.exports = (app) => {
     const get = async (req, res) => {
-        const contacs = await app.db_pg("contacts").select("*");
+        const contacs = await app.db_mysql("contacts").select("*");
 
         return res.json(contacs);
     };
     const getByid = async (req, res) => {
-        await app.db_pg("contacts").select()
+        await app.db_mysql("contacts").select()
             .table("contacts").where({ id: req.params.id }).first().then(sim => {
                 res.json(sim)
             })
@@ -17,12 +17,12 @@ module.exports = (app) => {
             const dados = { ...req.body };
             if (req.params.id) {
                 dados.id = await req.params.id;
-                app.db_pg("contacts").update(dados).where({ id: dados.id }).then((_) => res.status(201).send()).catch((err) => res.status(500).send(err));
+                app.db_mysql("contacts").update(dados).where({ id: dados.id }).then((_) => res.status(201).send()).catch((err) => res.status(500).send(err));
                 return res.json("contato editada com sucesso  " + dados);
             }
 
             const inserir = await app
-                .db_pg("contacts")
+                .db_mysql("contacts")
                 .insert(dados)
 
             res.json(inserir)

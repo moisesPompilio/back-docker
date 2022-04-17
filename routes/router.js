@@ -12,5 +12,12 @@ module.exports = (app) => {
         .get(app.api.contacsPg.getByid)
         .put(app.api.contacsPg.save)
 
+    app.route("/contacsmacapa")
+        .get(app.api.contacts_mysql.get)
+        .post(app.api.contacts_mysql.save)
+
+        app.route("/contacsmacapa/:id")
+        .get(app.api.contacts_mysql.getByid)
+        .put(app.api.contacts_mysql.save)
     
 }
