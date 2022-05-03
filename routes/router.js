@@ -9,6 +9,7 @@ function verifyJWT(req, res, next) {
         next();
     })
 }
+const { eAdmin } = require('../middlewares/auth')
 module.exports = (app) => {
     //const appVarejao = app.api.contacsPg
     // senha $2a$08$ENEJxClGWc9nxKVqbTc8COd8Ltyr8NZcKl5KDs593K.tnFDMndkRK
@@ -26,8 +27,8 @@ module.exports = (app) => {
     })
 
 
-    app.route("/users")
-        .get(app.api.user.get)
+    app.route("/")
+        .get(eAdmin ,app.api.user.get)
         .post(app.api.user.save)
 
     app.route("/contacsvarejao")

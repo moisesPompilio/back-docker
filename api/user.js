@@ -1,6 +1,7 @@
 const jtw = require('jsonwebtoken');
 const SECRET = "teste";
 const bcrypt = require('bcryptjs');
+const { eAdmin } = require('../middlewares/auth')
 module.exports = (app) => {
     const users = [
         {
@@ -25,15 +26,17 @@ module.exports = (app) => {
     const login = async (req,res) =>{
         console.log(req.body);
         const usuario = req.body
-        const passwordExist = await bcrypt.compare(usuario.password, "$2a$08$15ges3EwiK34FS2uCTEHWOQPndhV/etE1gniNysMhlHOUXflGPD0e")
-        if(usuario.email != "email@email" || passwordExist)
+        const password = "$2a$08$15ges3EwiK34FS2uCTEHWOQPndhV/etE1gniNysMhlHOUXflGPD0e"
+        const passwordExist = bcrypt.compare(usuario.password,password )
+        if(usuario.email != "email@email" || !passwordExist)
         {
             return res.json({ error: true, mensagem: "usuario nao encontrado" })
         }
-        /*if(! await bcrypt.compare(usuario.password, "$2a$08$ENEJxClGWc9nxKVqbTc8COd8Ltyr8NZcKl5KDs593K.tnFDMndkRK")){
-            return res.json({ error: true, mensagem: "usuario nao encontrado" })
-        }*/
-        return res.json({ error: false, mensagem: "login" })
+        var token = jtw.sign({id:3},"etE1gniNysMhlHOUXflGPD0e",{
+            expiresIn: 300
+            
+        })
+        return res.json({ error: false, mensagem: "login", token:token})
    
     }
     const cadastrar = async (req, res) => {
